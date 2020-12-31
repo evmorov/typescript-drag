@@ -116,9 +116,14 @@ const drop = (event: DragEvent) => {
   const data = event.dataTransfer!.getData('text');
   const node = document.getElementById(data)!;
   const target = event.target as HTMLElement;
-  if (target.nodeName != 'UL') return;
 
-  target.appendChild(node);
+  if ((target.parentNode! as HTMLElement).classList.contains('projects')) {
+    if (target.nodeName === 'UL') {
+      target.appendChild(node);
+    } else if (target.nodeName === 'HEADER') {
+      target.parentNode!.querySelector('ul')!.appendChild(node);
+    }
+  }
 };
 
 const uuidv4 = () => {
