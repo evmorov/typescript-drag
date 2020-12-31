@@ -116,13 +116,12 @@ const drop = (event: DragEvent) => {
   const data = event.dataTransfer!.getData('text');
   const node = document.getElementById(data)!;
   const target = event.target as HTMLElement;
+  const isProjectList = (node: Node) => (node as HTMLElement).classList.contains('projects');
 
-  if ((target.parentNode! as HTMLElement).classList.contains('projects')) {
-    if (target.nodeName === 'UL') {
-      target.appendChild(node);
-    } else if (target.nodeName === 'HEADER') {
-      target.parentNode!.querySelector('ul')!.appendChild(node);
-    }
+  if (!isProjectList(target.parentNode!)) return;
+
+  if (target.nodeName === 'HEADER') {
+    target.parentNode!.querySelector('ul')!.appendChild(node);
   }
 };
 
