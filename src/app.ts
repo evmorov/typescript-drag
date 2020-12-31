@@ -53,7 +53,7 @@ class ProjectFactory extends TemplateFactory {
 }
 
 const main = () => {
-  const app = document.querySelector('#app');
+  const app = document.querySelector('#app') as HTMLElement;
 
   if (!isTemplateSupported()) {
     renderTemplateNotSupported(app);
