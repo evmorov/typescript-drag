@@ -26,8 +26,8 @@ class ProjectInputFactory extends TemplateFactory {
 class ProjectListFactory extends TemplateFactory {
   constructor(id: string, header: string) {
     super('#project-list');
-    this.node.querySelector('section').id = id;
-    this.node.querySelector('h2').textContent = header;
+    this.node.querySelector('section')!.id = id;
+    this.node.querySelector('h2')!.textContent = header;
   }
 
   toNode() {
@@ -44,10 +44,10 @@ class ProjectFactory extends TemplateFactory {
   }
 
   toNode() {
-    this.node.querySelector('li').id = this.guid;
-    this.node.querySelector('h2').textContent = this.title;
-    this.node.querySelector('h3').textContent = this.description;
-    this.node.querySelector('p').textContent = this.people.toString();
+    this.node.querySelector('li')!.id = this.guid;
+    this.node.querySelector('h2')!.textContent = this.title;
+    this.node.querySelector('h3')!.textContent = this.description;
+    this.node.querySelector('p')!.textContent = this.people.toString();
     return this.node;
   }
 }
@@ -71,7 +71,7 @@ const main = () => {
 };
 
 const addFormSubmitListener = () => {
-  const form = document.querySelector('form');
+  const form = document.querySelector('form')!;
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const title = form.querySelector('#title') as HTMLInputElement;
@@ -84,7 +84,7 @@ const addFormSubmitListener = () => {
       parseInt(people.value, 10),
     );
 
-    const list = document.querySelector('#active-projects ul');
+    const list = document.querySelector('#active-projects ul')!;
     list.appendChild(newProject.toNode());
 
     title.value = '';
@@ -108,13 +108,13 @@ const allowDrop = (event: DragEvent) => {
 };
 
 const drag = (event: DragEvent) => {
-  event.dataTransfer.setData('text', (event.target as HTMLElement).id);
+  event.dataTransfer!.setData('text', (event.target as HTMLElement).id);
 };
 
 const drop = (event: DragEvent) => {
   event.preventDefault();
-  const data = event.dataTransfer.getData('text');
-  const node = document.getElementById(data);
+  const data = event.dataTransfer!.getData('text');
+  const node = document.getElementById(data)!;
   const target = event.target as HTMLElement;
   if (target.nodeName != 'UL') return;
 
