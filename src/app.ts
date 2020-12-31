@@ -5,7 +5,7 @@ abstract class TemplateFactory {
     this.node = this.makeNode();
   }
 
-  abstract toNode();
+  abstract toNode(): HTMLElement;
 
   protected makeNode() {
     const template = document.querySelector(this.templateId) as HTMLTemplateElement;
