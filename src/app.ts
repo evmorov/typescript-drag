@@ -1,8 +1,21 @@
-class ProjectListFactory {
-  private node: HTMLElement;
+abstract class TemplateFactory {
+  protected node: HTMLElement;
 
-  constructor(id: string, header: string) {
+  constructor(protected templateId: string) {
     this.node = this.makeNode();
+  }
+
+  abstract toNode();
+
+  protected makeNode() {
+    const template = document.querySelector(this.templateId) as HTMLTemplateElement;
+    return template.content.cloneNode(true) as HTMLElement;
+  }
+}
+
+class ProjectListFactory extends TemplateFactory {
+  constructor(id: string, header: string) {
+    super('#project-list');
     this.node.querySelector('section').id = id;
     this.node.querySelector('h2').textContent = header;
   }
@@ -10,20 +23,14 @@ class ProjectListFactory {
   toNode() {
     return this.node;
   }
-
-  private makeNode() {
-    const template = document.querySelector('#project-list') as HTMLTemplateElement;
-    return template.content.cloneNode(true) as HTMLElement;
-  }
 }
 
-class ProjectFactory {
+class ProjectFactory extends TemplateFactory {
   private guid: string;
-  private node: HTMLElement;
 
   constructor(private title: string, private description: string, private people: number) {
+    super('#single-project');
     this.guid = uuidv4();
-    this.node = this.makeNode();
   }
 
   toNode() {
@@ -32,11 +39,6 @@ class ProjectFactory {
     this.node.querySelector('h3').textContent = this.description;
     this.node.querySelector('p').textContent = this.people.toString();
     return this.node;
-  }
-
-  private makeNode() {
-    const template = document.querySelector('#single-project') as HTMLTemplateElement;
-    return template.content.cloneNode(true) as HTMLElement;
   }
 }
 
@@ -64,7 +66,7 @@ const main = () => {
     const description = form.querySelector('#description') as HTMLInputElement;
     const people = form.querySelector('#people') as HTMLInputElement;
 
-    const newProject: Project = new Project(
+    const newProject: ProjectFactory = new ProjectFactory(
       title.value,
       description.value,
       parseInt(people.value, 10),
