@@ -1,4 +1,23 @@
-class Project {
+class ProjectListFactory {
+  private node: HTMLElement;
+
+  constructor(id: string, header: string) {
+    this.node = this.makeNode();
+    this.node.querySelector('section').id = id;
+    this.node.querySelector('h2').textContent = header;
+  }
+
+  toNode() {
+    return this.node;
+  }
+
+  private makeNode() {
+    const template = document.querySelector('#project-list') as HTMLTemplateElement;
+    return template.content.cloneNode(true) as HTMLElement;
+  }
+}
+
+class ProjectFactory {
   private guid: string;
   private node: HTMLElement;
 
@@ -16,8 +35,8 @@ class Project {
   }
 
   private makeNode() {
-    const singleProject = document.querySelector('#single-project') as HTMLTemplateElement;
-    return singleProject.content.cloneNode(true) as HTMLElement;
+    const template = document.querySelector('#single-project') as HTMLTemplateElement;
+    return template.content.cloneNode(true) as HTMLElement;
   }
 }
 
@@ -32,17 +51,11 @@ const main = () => {
   const projectInput = document.querySelector('#project-input') as HTMLTemplateElement;
   app.appendChild(projectInput.content.cloneNode(true));
 
-  const projectList = document.querySelector('#project-list') as HTMLTemplateElement;
+  const activeProjectList = new ProjectListFactory('active-projects', 'ACTIVE PROJECTS');
+  app.appendChild(activeProjectList.toNode());
 
-  const activeProjectList = projectList.content.cloneNode(true) as HTMLElement;
-  activeProjectList.querySelector('h2').textContent = 'ACTIVE PROJECTS';
-  activeProjectList.querySelector('section').id = 'active-projects';
-  app.appendChild(activeProjectList);
-
-  const finishedProjectList = projectList.content.cloneNode(true) as HTMLElement;
-  finishedProjectList.querySelector('h2').textContent = 'FINISHED PROJECTS';
-  finishedProjectList.querySelector('section').id = 'finished-projects';
-  app.appendChild(finishedProjectList);
+  const finishedProjectList = new ProjectListFactory('finished-projects', 'FINISHED PROJECTS');
+  app.appendChild(finishedProjectList.toNode());
 
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => {
