@@ -11,7 +11,7 @@
 
   <body>
     <template id="project-input">
-      <form>
+      <form id="user-input">
         <div class="form-control">
           <label for="title">Title</label>
           <input type="text" id="title" />
@@ -29,11 +29,15 @@
     </template>
 
     <template id="single-project">
-      <li></li>
+      <li draggable="true" ondragstart="drag(event)">
+        <h2></h2>
+        <h3></h3>
+        <p></p>
+      </li>
     </template>
 
     <template id="project-list">
-      <section class="projects">
+      <section class="projects" ondrop="drop(event)" ondragover="allowDrop(event)">
         <header>
           <h2></h2>
         </header>
