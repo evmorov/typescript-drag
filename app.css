@@ -2,38 +2,8 @@
   box-sizing: border-box;
 }
 
-html {
-  font-family: sans-serif;
-}
-
 body {
   margin: 0;
-}
-
-label,
-input,
-textarea {
-  display: block;
-  margin: 0.5rem 0;
-}
-
-label {
-  font-weight: bold;
-}
-
-input,
-textarea {
-  font: inherit;
-  padding: 0.2rem 0.4rem;
-  width: 100%;
-  max-width: 30rem;
-  border: 1px solid #ccc;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  background: #fff5f9;
 }
 
 button {
@@ -55,9 +25,47 @@ button:active {
   border-color: #a80041;
 }
 
-.projects {
-  margin: 1rem;
-  border: 1px solid #ff0062;
+html {
+  font-family: sans-serif;
+}
+
+input,
+textarea {
+  font: inherit;
+  padding: 0.2rem 0.4rem;
+  width: 100%;
+  max-width: 30rem;
+  border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  background: #fff5f9;
+}
+
+label {
+  font-weight: bold;
+}
+
+label,
+input,
+textarea {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.droppable {
+  background: #ffe3ee;
+}
+
+.project li p {
+  margin: 0;
+}
+
+.projects h2 {
+  margin: 0;
+  color: white;
 }
 
 .projects header {
@@ -68,23 +76,14 @@ button:active {
   align-items: center;
 }
 
-#finished-projects {
-  border-color: #0044ff;
+.projects li h2 {
+  color: #ff0062;
+  margin: 0.5rem 0;
 }
 
-#finished-projects header {
-  background: #0044ff;
-}
-
-.projects h2 {
-  margin: 0;
-  color: white;
-}
-
-.projects ul {
-  list-style: none;
-  margin: 0;
-  padding: 1rem;
+.projects li h3 {
+  color: #575757;
+  font-size: 1rem;
 }
 
 .projects li {
@@ -93,30 +92,31 @@ button:active {
   margin: 1rem;
 }
 
-.projects li h2 {
-  color: #ff0062;
-  margin: 0.5rem 0;
+.projects ul {
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+}
+
+.projects {
+  margin: 1rem;
+  border: 1px solid #ff0062;
+}
+
+#finished-projects .droppable {
+  background: #d6e1ff;
+}
+
+#finished-projects header {
+  background: #0044ff;
 }
 
 #finished-projects li h2 {
   color: #0044ff;
 }
 
-.projects li h3 {
-  color: #575757;
-  font-size: 1rem;
-}
-
-.project li p {
-  margin: 0;
-}
-
-.droppable {
-  background: #ffe3ee;
-}
-
-#finished-projects .droppable {
-  background: #d6e1ff;
+#finished-projects {
+  border-color: #0044ff;
 }
 
 #user-input {
