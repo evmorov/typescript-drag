@@ -13,6 +13,16 @@ abstract class TemplateFactory {
   }
 }
 
+class ProjectInputFactory extends TemplateFactory {
+  constructor() {
+    super('#project-input');
+  }
+
+  toNode() {
+    return this.node;
+  }
+}
+
 class ProjectListFactory extends TemplateFactory {
   constructor(id: string, header: string) {
     super('#project-list');
@@ -50,18 +60,20 @@ const main = () => {
     return;
   }
 
-  const projectInput = document.querySelector('#project-input') as HTMLTemplateElement;
-  app.appendChild(projectInput.content.cloneNode(true));
+  const projectInputFactory = new ProjectInputFactory();
+  app.appendChild(projectInputFactory.toNode());
+  const activeListFactory = new ProjectListFactory('active-projects', 'ACTIVE PROJECTS');
+  app.appendChild(activeListFactory.toNode());
+  const finishedListFactory = new ProjectListFactory('finished-projects', 'FINISHED PROJECTS');
+  app.appendChild(finishedListFactory.toNode());
 
-  const activeProjectList = new ProjectListFactory('active-projects', 'ACTIVE PROJECTS');
-  app.appendChild(activeProjectList.toNode());
+  addFormSubmitListener();
+};
 
-  const finishedProjectList = new ProjectListFactory('finished-projects', 'FINISHED PROJECTS');
-  app.appendChild(finishedProjectList.toNode());
-
+const addFormSubmitListener = () => {
   const form = document.querySelector('form');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
     const title = form.querySelector('#title') as HTMLInputElement;
     const description = form.querySelector('#description') as HTMLInputElement;
     const people = form.querySelector('#people') as HTMLInputElement;
@@ -72,9 +84,8 @@ const main = () => {
       parseInt(people.value, 10),
     );
 
-    const ul = document.querySelector('#active-projects ul');
-    const node = newProject.toNode();
-    ul.appendChild(node);
+    const list = document.querySelector('#active-projects ul');
+    list.appendChild(newProject.toNode());
 
     title.value = '';
     description.value = '';
@@ -86,29 +97,29 @@ const isTemplateSupported = () => {
   return 'content' in document.createElement('template');
 };
 
-const renderTemplateNotSupported = (app) => {
+const renderTemplateNotSupported = (app: HTMLElement) => {
   app
     .appendChild(document.createElement('h1'))
     .appendChild(document.createTextNode('Your browser is not supported'));
 };
 
-function allowDrop(ev) {
-  ev.preventDefault();
-}
+const allowDrop = (event: DragEvent) => {
+  event.preventDefault();
+};
 
-function drag(ev) {
-  ev.dataTransfer.setData('text', ev.target.id);
-}
+const drag = (event: DragEvent) => {
+  event.dataTransfer.setData('text', (event.target as HTMLElement).id);
+};
 
-function drop(ev) {
-  ev.preventDefault();
-  const data = ev.dataTransfer.getData('text');
+const drop = (event: DragEvent) => {
+  event.preventDefault();
+  const data = event.dataTransfer.getData('text');
   const node = document.getElementById(data);
-  const target = ev.target;
+  const target = event.target as HTMLElement;
   if (target.nodeName != 'UL') return;
 
-  ev.target.appendChild(node);
-}
+  target.appendChild(node);
+};
 
 const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
